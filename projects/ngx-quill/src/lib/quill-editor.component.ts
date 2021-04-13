@@ -1,9 +1,11 @@
-import {DOCUMENT, isPlatformServer} from '@angular/common'
-import {DomSanitizer} from '@angular/platform-browser'
+import { DOCUMENT, isPlatformServer } from '@angular/common'
+import { DomSanitizer } from '@angular/platform-browser'
 
-import { QuillModules, CustomOption, CustomModule} from './quill-editor.interfaces'
+import { QuillModules, CustomOption, CustomModule } from './quill-editor.interfaces'
+import QuillBetterTable from 'quill-better-table'
 
-import QuillType, { Delta } from 'quill'
+import QuillType from 'quill'
+import Delta from 'quill-delta'
 
 import {
   AfterViewInit,
@@ -25,10 +27,10 @@ import {
   ViewEncapsulation
 } from '@angular/core'
 
-import {ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator} from '@angular/forms'
-import {defaultModules} from './quill-defaults'
+import { ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms'
+import { defaultModules } from './quill-defaults'
 
-import {getFormat} from './helpers'
+import { getFormat } from './helpers'
 import { QuillService } from './quill.service'
 
 export interface Range {
@@ -256,6 +258,54 @@ export abstract class QuillEditorBase implements AfterViewInit, ControlValueAcce
       formats = this.service.config.formats ? [...this.service.config.formats] : (this.service.config.formats === null ? null : undefined)
     }
 
+    // replace default table module with ng-better-table if used
+    if (modules.table) {
+      if (modules.table !== true && modules.table.operationMenu === false) {
+        modules['better-table'] = {
+          operationMenu: {
+            items: {
+              insertColumnRight: false,
+              insertColumnLeft: false,
+              insertRowUp: false,
+              insertRowDown: false,
+              mergeCells: false,
+              unmergeCells: false,
+              deleteColumn: false,
+              deleteRow: false,
+              deleteTable: false
+            }
+          }
+        }
+      }
+      else {
+        modules['better-table'] = {
+          operationMenu: {
+            items: {}
+          }
+        }
+      }
+    modules.keyboard = {
+        bindings: {
+          ...QuillBetterTable.keyboardBindings,
+          // overwrite tab keybinding to allow for tabbing to next input
+          tab: {
+            key: 9,
+            handler: () => true
+          }
+        }
+      }
+      Quill.register(
+        {
+          'modules/better-table': QuillBetterTable
+        },
+        true
+      )
+    }
+    const tableOperationMenu = modules.table
+      && (modules.table !== true && modules.table.operationMenu)
+      || modules.table === true
+    modules.table = false
+
     this.zone.runOutsideAngular(() => {
       this.quillEditor = new Quill(this.editorElem, {
         bounds,
@@ -268,13 +318,19 @@ export abstract class QuillEditorBase implements AfterViewInit, ControlValueAcce
         strict: this.strict,
         theme: this.theme || (this.service.config.theme ? this.service.config.theme : 'snow')
       })
+      if (tableOperationMenu === false) {
+        // Renders table's click & contextmenu events inert.
+        // Unable to remove listeners with anonymous functions.
+        const table = this.quillEditor.getModule('better-table')
+        table.showTableTools = () => null
 
-      // Set optional link placeholder, Quill has no native API for it so using workaround
-      if (this.linkPlaceholder) {
-        const tooltip = (this.quillEditor as any)?.theme?.tooltip
-        const input = tooltip?.root?.querySelector('input[data-link]')
-        if (input?.dataset) {
-          input.dataset.link = this.linkPlaceholder
+        // Set optional link placeholder, Quill has no native API for it so using workaround
+        if (this.linkPlaceholder) {
+          const tooltip = (this.quillEditor as any)?.theme?.tooltip
+          const input = tooltip?.root?.querySelector('input[data-link]')
+          if (input?.dataset) {
+            input.dataset.link = this.linkPlaceholder
+          }
         }
       }
     })
@@ -634,9 +690,8 @@ export abstract class QuillEditorBase implements AfterViewInit, ControlValueAcce
     }
   ],
   selector: 'quill-editor',
-  template: `
-  <ng-content select="[quill-editor-toolbar]"></ng-content>
-`
+  template: `<ng-content select="[quill-editor-toolbar]"></ng-content>`,
+  styleUrls: ['./quill-editor.component.scss'],
 })
 export class QuillEditorComponent extends QuillEditorBase {
 

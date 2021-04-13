@@ -1,4 +1,5 @@
 export const defaultModules = {
+  table: true,
   toolbar: [
     ['bold', 'italic', 'underline', 'strike'], // toggled buttons
     ['blockquote', 'code-block'],

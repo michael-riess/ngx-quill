@@ -10,6 +10,28 @@ export interface CustomModule {
   path: string
 }
 
+export type OperationKey = false | { text: string }
+
+export type QuillTableConfig = {
+    operationMenu: {
+        items: {
+            insertColumnRight?: OperationKey
+            insertColumnLeft?: OperationKey
+            insertRowUp?: OperationKey
+            insertRowDown?: OperationKey
+            mergeCells?: OperationKey
+            unmergeCells?: OperationKey
+            deleteColumn?: OperationKey
+            deleteRow?: OperationKey
+            deleteTable?: OperationKey
+        }
+        color?: {
+          colors?: string[]
+          text?: string
+        }
+    } | boolean
+}
+
 export type QuillToolbarConfig = Array<Array< string | {
   indent?: string
   list?: string
@@ -35,6 +57,7 @@ export interface QuillModules {
     maxStack?: number
     userOnly?: boolean
   } | boolean
+  table?: QuillTableConfig | boolean
   keyboard?: {
     bindings?: any
   } | boolean

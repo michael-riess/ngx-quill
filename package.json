@@ -12,7 +12,7 @@
   "author": {
     "name": "Bengt Weiße"
   },
-  "description": "An angular component for the easy use of the QuillJS richt text editor.",
+  "description": "An angular component for the easy use of the QuillJS rich text editor.",
   "bugs": "https://github.com/KillerCodeMonkey/ngx-quill/issues",
   "homepage": "https://github.com/KillerCodeMonkey/ngx-quill",
   "repository": {
