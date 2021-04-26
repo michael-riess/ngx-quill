@@ -1,0 +1,85 @@
+app-root {
+    --editor-min-height: 200px;
+}
+
+div.ql-container.ql-snow {
+    min-height: 100px;
+}
+.ql-editor {
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 26px;
+}
+
+quill-editor {
+    display: block;
+    padding-top: 30px;
+
+    [quill-editor-element="true"] {
+        min-height: 100px;
+    }
+
+    [quill-editor-element] {
+        min-height: 100px;
+    }
+
+    [quill-editor-element=true] {
+        min-height: 100px;
+    }
+
+    div .ql-container .ql-snow {
+        min-height: 100px;
+    }
+
+    div.ql-container .ql-snow {
+        min-height: 100px;
+    }
+
+    div.ql-container.ql-snow {
+        min-height: 100px;
+    }
+
+    .ql-editor {
+        border-radius: 4px;
+        font-size: 16px;
+        line-height: 26px;
+    }
+    
+}
+
+.ql-editor {
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--color-primary);
+    font-family: var(--app-font-family);
+    min-height: var(--editor-min-height, initial);
+    &.ql-blank::before {
+        color: var(--color-tertiary);
+    }
+}
+
+[quill-editor-element="true"] {
+    min-height: 100px;
+}
+
+[quill-editor-element] {
+    min-height: 100px;
+}
+
+[quill-editor-element=true] {
+    min-height: 100px;
+}
+
+div .ql-container .ql-snow {
+    min-height: 100px;
+}
+
+div.ql-container .ql-snow {
+    min-height: 100px;
+}
+
+div.ql-container.ql-snow {
+    min-height: 100px;
+}
+
