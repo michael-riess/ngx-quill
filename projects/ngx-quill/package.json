@@ -36,15 +36,13 @@
     "@angular/platform-browser": "^10.0.0 || ^11.0.0",
     "rxjs": "^6.5.0",
     "highlight.js": "10.0.0",
-    "quill-better-table": "^1.2.10"
+    "quill-better-table": "^1.2.10",
+    "@types/quill": "^2.0.6",
+    "quill": "2.0.0-dev.4"
   },
   "contributors": [
     {
       "name": "Bengt Weiße"
     }
-  ],
-  "dependencies": {
-    "@types/quill": "^2.0.6",
-    "quill": "2.0.0-dev.4"
-  }
+  ]
 }

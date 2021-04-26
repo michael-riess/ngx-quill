@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "esModuleInterop": true,
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -31,7 +32,10 @@
       "ngx-quill-universal": [
         "dist/ngx-quill-universal/ngx-quill-universal",
         "dist/ngx-quill-universal"
-      ]
+      ],
+      "@ngx-quill": [
+        "projects/ngx-quill/src/public-api",
+      ],
     }
   },
   "angularCompilerOptions": {
